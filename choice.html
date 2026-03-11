@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pilih yang Paling Kamu Suka 😌</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/slideshow.css" />
+</head>
+<body>
+  <div class="slideshow-bg" id="slideshowBg"></div>
+  <div class="hearts-bg"></div>
+  <audio id="bgMusic" loop>
+    <source src="music/romantic.mp3" type="audio/mpeg" />
+    <source src="music/romantic.ogg" type="audio/ogg" />
+  </audio>
+  <button id="musicBtn" title="Play/Pause musik">🔇</button>
+
+  <div class="page">
+    <div class="card">
+      <div class="step-badge">💭 Challenge 2 dari 3</div>
+
+      <div id="state-choose">
+        <h1>Sekarang kamu<br>harus memilih…</h1>
+        <div class="divider"></div>
+        <p>Pilih yang paling kamu suka 😌</p>
+        <p class="subtitle">Pilih dengan sepenuh hati ya~</p>
+        <div class="choice-btns">
+          <button class="btn-choice" onclick="choose(this)">💕 Aku</button>
+          <button class="btn-choice" onclick="choose(this)">💖 Aku banget</button>
+          <button class="btn-choice" onclick="choose(this)">✨ Aku dong</button>
+        </div>
+      </div>
+
+      <div id="state-result" class="hidden">
+        <div style="font-size:3rem;margin-bottom:1rem;animation:burstIn 0.5s ease both">✦ ✦ ✦</div>
+        <h2>Jawaban kamu benar semua</h2>
+        <div class="divider"></div>
+        <p>Karena kamu memang harus pilih <strong style="color:var(--gold)">aku</strong> ❤️</p>
+        <p id="chosen-text" style="color:var(--text-soft);font-size:0.9rem"></p>
+        <a href="prank.html" class="btn btn-primary">Lanjut ke challenge terakhir →</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/slideshow.js"></script>
+  <script src="js/music.js"></script>
+  <script>
+    function choose(btn) {
+      document.getElementById('state-choose').classList.add('hidden');
+      document.getElementById('state-result').classList.remove('hidden');
+      document.getElementById('chosen-text').textContent = `Kamu memilih: "${btn.textContent.trim()}" — pilihan yang sempurna 😌`;
+      confettiBurst();
+    }
+  </script>
+</body>
+</html>

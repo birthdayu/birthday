@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Surat untuk Kamu 💌</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/slideshow.css" />
+  <style>
+    body { font-family: 'DM Sans', sans-serif; }
+
+    .envelope-icon {
+      font-size: 3rem;
+      animation: openEnvelope 1s ease forwards;
+    }
+    @keyframes openEnvelope {
+      0%   { transform: translateY(-20px) scale(0.8); opacity: 0; }
+      60%  { transform: translateY(5px) scale(1.05); opacity: 1; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    /* ── TYPEWRITER ── */
+    .letter-line {
+      display: block;
+      font-size: 0.97rem;
+      color: var(--muted);
+      line-height: 1.85;
+      min-height: 1em;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .letter-line.salutation {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--gold-light);
+    }
+    .letter-line.sign {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--gold);
+      text-align: right;
+      margin-top: 0.5rem;
+    }
+    .letter-line.highlight {
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .letter-spacer { display: block; height: 0.6rem; }
+
+    .cursor {
+      display: inline-block;
+      width: 2px; height: 0.9em;
+      background: var(--gold);
+      margin-left: 1px;
+      vertical-align: text-bottom;
+      animation: blink 0.65s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ── FOTO POLAROID dalam surat ── */
+    .letter-photos {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 1rem 0 0.5rem;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .letter-photos.show { opacity: 1; transform: translateY(0); }
+
+    .polaroid {
+      background: #fff;
+      padding: 6px 6px 22px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+      border-radius: 3px;
+      transform: rotate(var(--rot));
+      transition: transform 0.3s ease;
+    }
+    .polaroid:hover { transform: rotate(0deg) scale(1.07); z-index: 10; }
+    .polaroid img {
+      width: 80px; height: 80px;
+      object-fit: cover;
+      display: block;
+      background: #1a2744;
+    }
+
+    /* ── TOMBOL LANJUT ── */
+    .btn-wrap {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      margin-top: 1.5rem;
+    }
+    .btn-wrap.show { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+  <div class="slideshow-bg" id="slideshowBg"></div>
+  <div class="hearts-bg"></div>
+  <audio id="bgMusic" loop>
+    <source src="music/romantic.mp3" type="audio/mpeg" />
+    <source src="music/romantic.ogg" type="audio/ogg" />
+  </audio>
+  <button id="musicBtn" title="Play/Pause musik">🔇</button>
+
+  <div class="page">
+    <div class="card">
+      <div class="envelope-icon">💌</div>
+      <h1>Surat untuk kamu</h1>
+      <div class="divider"></div>
+
+      <!-- Foto polaroid — tampil setelah surat selesai diketik -->
+      <div class="letter-photos" id="letterPhotos">
+        <div class="polaroid" style="--rot:-4deg"><img src="images/photo1.jpg" alt="foto 1" /></div>
+        <div class="polaroid" style="--rot:2deg"><img src="images/photo2.jpg" alt="foto 2" /></div>
+        <div class="polaroid" style="--rot:-2deg"><img src="images/photo3.jpg" alt="foto 3" /></div>
+        <div class="polaroid" style="--rot:5deg"><img src="images/photo4.jpg" alt="foto 4" /></div>
+      </div>
+
+      <div class="letter-paper" id="letterPaper"></div>
+
+      <div class="btn-wrap" id="btnWrap">
+        <a href="ending.html" class="btn btn-primary">Ke halaman terakhir →</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/slideshow.js"></script>
+  <script src="js/music.js"></script>
+  <script>
+  // ── ISI SURAT — edit teks di sini ──
+  const lines = [
+    { text: 'Selamat ulang tahun, sayang.', type: 'salutation' },
+    { type: 'spacer' },
+
+    { text: 'Hari ini adalah hari yang sangat spesial.', type: 'normal' },
+    { text: 'Karena di hari inilah seseorang yang begitu berarti dalam hidupku lahir ke dunia.', type: 'normal' },
+    { text: 'Seseorang yang mungkin tidak selalu berada di dekatku secara jarak,', type: 'normal' },
+    { text: 'tapi selalu dekat di hatiku setiap hari.', type: 'normal' },
+    { type: 'spacer' },
+
+    { text: 'Kadang aku masih suka merasa aneh dengan jarak yang memisahkan kita.', type: 'normal' },
+    { text: 'Kita tidak bisa bertemu sesering yang kita mau,', type: 'normal' },
+    { text: 'tidak bisa sekadar jalan bareng saat rindu datang tiba-tiba,', type: 'normal' },
+    { text: 'atau memeluk satu sama lain saat hari terasa berat.', type: 'normal' },
+    { text: 'Tapi dari semua itu aku belajar satu hal penting,', type: 'normal' },
+    { text: 'bahwa rasa sayang tidak selalu harus dekat secara fisik untuk bisa terasa nyata.', type: 'normal' },
+    { type: 'spacer' },
+
+    { text: 'Terima kasih sudah bertahan sejauh ini bersama aku.', type: 'normal' },
+    { text: 'Terima kasih sudah tetap memilih aku,', type: 'normal' },
+    { text: 'bahkan di saat kita harus menjalani hubungan dengan jarak yang tidak selalu mudah.', type: 'normal' },
+    { text: 'Kamu mungkin tidak sadar,', type: 'normal' },
+    { text: 'tapi kehadiranmu lewat pesan, telepon, atau kabar sederhana', type: 'normal' },
+    { text: 'sering jadi hal kecil yang bisa memperbaiki hariku.', type: 'normal' },
+    { type: 'spacer' },
+
+    { text: 'Di ulang tahunmu ini aku memang tidak punya hadiah yang bisa langsung kamu pegang.', type: 'normal' },
+    { text: 'Tapi aku punya doa yang selalu aku titipkan untukmu.', type: 'normal' },
+    { text: 'Semoga semua langkah yang kamu ambil dimudahkan.', type: 'normal' },
+    { text: 'Semoga semua mimpi yang kamu kejar perlahan menjadi nyata.', type: 'normal' },
+    { text: 'Dan semoga kamu selalu dikelilingi oleh hal-hal baik dalam hidupmu.', type: 'normal' },
+    { type: 'spacer' },
+
+    { text: 'Aku juga berharap kita tetap bertahan.', type: 'normal' },
+    { text: 'Sampai nanti ada waktu di mana jarak ini tidak lagi jadi cerita utama kita.', type: 'normal' },
+    { text: 'Dan hanya menjadi bagian kecil dari perjalanan yang pernah kita lewati bersama.', type: 'normal' },
+    { type: 'spacer' },
+
+    { text: 'Terima kasih sudah menjadi kamu.', type: 'normal' },
+    { text: 'Seseorang yang selalu aku tunggu kabarnya,', type: 'normal' },
+    { text: 'selalu aku doakan diam-diam,', type: 'normal' },
+    { text: 'dan selalu punya tempat khusus di hatiku.', type: 'normal' },
+    { type: 'spacer' },
+
+    { text: 'Selamat ulang tahun ya sayang 🎂', type: 'highlight' },
+    { type: 'spacer' },
+
+    { text: 'Aku sayang kamu, selalu.', type: 'normal' },
+    { text: '— dari aku yang selalu sayang kamu ❤️', type: 'sign' },
+  ];
+
+    const paper   = document.getElementById('letterPaper');
+    const btnWrap = document.getElementById('btnWrap');
+    const photos  = document.getElementById('letterPhotos');
+
+    const SPEED = { normal: 30, salutation: 45, sign: 38, highlight: 32 };
+    const GAP   = 110;
+
+    function typeOneLine(line) {
+      return new Promise(resolve => {
+        if (line.type === 'spacer') {
+          const sp = document.createElement('span');
+          sp.className = 'letter-spacer';
+          paper.appendChild(sp);
+          return setTimeout(resolve, 60);
+        }
+        const span = document.createElement('span');
+        span.className = 'letter-line ' + (line.type || 'normal');
+        paper.appendChild(span);
+
+        const cursor = document.createElement('span');
+        cursor.className = 'cursor';
+        span.appendChild(cursor);
+
+        const text  = line.text;
+        const speed = SPEED[line.type] || SPEED.normal;
+        let i = 0;
+
+        function tick() {
+          if (i < text.length) {
+            cursor.remove();
+            span.appendChild(document.createTextNode(text[i++]));
+            span.appendChild(cursor);
+            setTimeout(tick, speed + (Math.random() * 16 - 8));
+          } else {
+            cursor.remove();
+            setTimeout(resolve, GAP);
+          }
+        }
+        tick();
+      });
+    }
+
+    async function runLetter() {
+      // Munculkan foto duluan
+      photos.classList.add('show');
+
+      for (const line of lines) await typeOneLine(line);
+
+      btnWrap.classList.add('show');
+    }
+
+    setTimeout(runLetter, 950);
+  </script>
+</body>
+</html>

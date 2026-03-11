@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>⚠️ Penting!</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/slideshow.css" />
+  <style>
+    .warning-icon { font-size: 3.5rem; margin-bottom: 1rem; animation: wiggle 0.5s ease infinite alternate; }
+    @keyframes wiggle { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
+    .bday-text {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1rem, 4vw, 1.6rem);
+      color: var(--gold);
+      line-height: 1.3;
+      animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      letter-spacing: 0.04em;
+      white-space: nowrap
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.3) rotate(-10deg); }
+      to   { opacity: 1; transform: scale(1) rotate(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="slideshow-bg" id="slideshowBg"></div>
+  <div class="hearts-bg"></div>
+  <audio id="bgMusic" loop>
+    <source src="music/romantic.mp3" type="audio/mpeg" />
+    <source src="music/romantic.ogg" type="audio/ogg" />
+  </audio>
+  <button id="musicBtn" title="Play/Pause musik">🔇</button>
+
+  <div class="page">
+    <div class="card">
+      <div id="state-warn">
+        <div class="step-badge">⚠️ Challenge 3 dari 3</div>
+        <div class="warning-icon">⛔</div>
+        <h1>Penting!</h1>
+        <div class="divider"></div>
+        <p style="font-size:1.15rem;font-weight:600;color:var(--off-white)">Jangan klik tombol ini.</p>
+        <p class="subtitle">Serius. Jangan.</p>
+        <br>
+        <button class="btn btn-prank" onclick="doPrank()">🚫 JANGAN DIKLIK</button>
+      </div>
+
+      <div id="state-prank" class="hidden">
+        <p style="color:var(--text-soft);margin-bottom:0.5rem">Aku tahu kamu pasti klik 😏</p>
+        <div class="divider"></div>
+        <div class="bday-text">🎉 HAPPY BIRTHDAY SAYANG 🎉</div>
+        <div class="divider"></div>
+        <p>Semoga kamu selalu <strong style="color:var(--gold)">sehat</strong>,<br>
+           selalu <strong style="color:var(--gold)">bahagia</strong>,<br>
+           dan semua <strong style="color:var(--gold)">impian kamu tercapai</strong>.</p>
+        <br>
+        <p style="color:var(--text-soft);font-style:italic">Dan semoga kamu tetap sabar menghadapi aku 😌</p>
+        <br>
+        <a href="letter.html" class="btn btn-primary">Ada pesan dari aku 💌</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/slideshow.js"></script>
+  <script src="js/music.js"></script>
+  <script>
+    function doPrank() {
+      confettiBurst();
+      document.getElementById('state-warn').classList.add('hidden');
+      document.getElementById('state-prank').classList.remove('hidden');
+      setTimeout(confettiBurst, 800);
+    }
+  </script>
+</body>
+</html>

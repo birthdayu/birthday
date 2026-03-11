@@ -1,0 +1,40 @@
+/* ── SLIDESHOW BG — shared ── */
+.slideshow-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  filter: brightness(0.18) blur(3px);
+}
+.slide.active { opacity: 1; }
+
+/* ── MUSIC BTN — shared ── */
+#musicBtn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 200;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: rgba(201,168,76,0.15);
+  border: 1px solid rgba(201,168,76,0.4);
+  color: var(--gold);
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+#musicBtn:hover { background: rgba(201,168,76,0.28); transform: scale(1.1); }
+#musicBtn.show  { display: flex; }

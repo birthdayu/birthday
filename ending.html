@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday 🎂</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/slideshow.css" />
+  <style>
+    body { font-family: 'DM Sans', sans-serif; }
+
+    .balloon-row { font-size: 2.5rem; margin-bottom: 0.5rem; animation: floatBalloons 3s ease-in-out infinite alternate; }
+    @keyframes floatBalloons { from{transform:translateY(0)} to{transform:translateY(-8px)} }
+
+    .kangen-btn {
+      display: inline-block;
+      padding: 0.85rem 2.2rem;
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.4);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      margin-top: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .kangen-btn:hover { background: rgba(201,168,76,0.1); border-color: var(--gold); transform: scale(1.04); }
+
+    .stars { color: var(--gold); font-size: 1rem; letter-spacing: 8px; margin: 0.5rem 0; opacity: 0.6; }
+
+    /* ── COUNTDOWN di ending ── */
+    .ending-stats {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    .stat-box {
+      background: rgba(201,168,76,0.07);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 10px;
+      padding: 0.7rem 1rem;
+      text-align: center;
+      min-width: 90px;
+    }
+    .stat-num {
+      font-family: 'Cinzel', serif;
+      font-size: 1.6rem;
+      color: var(--gold);
+      display: block;
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.7rem; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.08em; }
+    .stat-sub   { font-size: 0.72rem; color: var(--text-soft); margin-top: 0.3rem; }
+  </style>
+</head>
+<body>
+  <div class="slideshow-bg" id="slideshowBg"></div>
+  <div class="hearts-bg"></div>
+  <audio id="bgMusic" loop>
+    <source src="music/romantic.mp3" type="audio/mpeg" />
+    <source src="music/romantic.ogg" type="audio/ogg" />
+  </audio>
+  <button id="musicBtn" title="Play/Pause musik">🔇</button>
+
+  <div class="page">
+    <div class="card">
+      <div class="balloon-row">🎈 ✦ 🎈</div>
+      <div class="ending-title">Happy Birthday<br>once again ❤️</div>
+      <div class="stars">— ✦ —</div>
+      <div class="divider"></div>
+
+      <!-- Stats -->
+      <div class="ending-stats" id="endingStats"></div>
+
+      <p>Terima kasih sudah membuka semua surprise ini sampai akhir.</p>
+      <p>Website ini dibuat khusus oleh pacar kamu<br>yang selalu sayang kamu.</p>
+      <p style="font-style:italic;color:var(--text-soft)">Kalau kamu sudah sampai sini<br>berarti kamu benar-benar sayang aku 😌</p>
+
+      <div class="divider"></div>
+
+      <button class="kangen-btn" id="kangenBtn" onclick="showKangen()">Klik kalau kamu kangen aku</button>
+      <div id="kangen-reply" class="kangen-response hidden">Aku juga kangen kamu banget 😭❤️</div>
+    </div>
+
+    <div class="special-menu">
+      <h3>🎬 Special For You</h3>
+      <p style="color:var(--text-soft);font-size:0.9rem;margin-bottom:1rem">Aku juga menyiapkan sesuatu lagi untuk kamu.</p>
+      <a href="video.html" class="btn btn-primary">🎥 Tonton Video Untuk Kamu</a>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/slideshow.js"></script>
+  <script src="js/music.js"></script>
+  <script>
+    const BDAY       = new Date(2004, 2, 18);
+    const DATE_KENAL = new Date(2022, 5, 25);
+    const DATE_PACAR = new Date(2025, 9, 30);
+
+    function calcAge(bday) {
+      // Pakai tanggal ultah tahun ini sebagai referensi, bukan hari ini
+      const ref = new Date(new Date().getFullYear(), bday.getMonth(), bday.getDate());
+      return ref.getFullYear() - bday.getFullYear();
+    }
+    function diffDuration(from, to) {
+      let y = to.getFullYear() - from.getFullYear();
+      let m = to.getMonth() - from.getMonth();
+      let d = to.getDate() - from.getDate();
+      if (d < 0) { m--; d += new Date(to.getFullYear(), to.getMonth(), 0).getDate(); }
+      if (m < 0) { y--; m += 12; }
+      return { y, m, d };
+    }
+
+    // Pakai tanggal ultah tahun ini sebagai referensi konsisten
+    const ref   = new Date(2026, 2, 18); // 18 Maret 2026
+    const age   = calcAge(BDAY);
+    const kenal = diffDuration(DATE_KENAL, ref);
+    const pacar = diffDuration(DATE_PACAR, ref);
+
+    function fmtShort(d) {
+      if (d.y) return `${d.y}th ${d.m}bln`;
+      if (d.m) return `${d.m} bulan`;
+      return `${d.d} hari`;
+    }
+
+    document.getElementById('endingStats').innerHTML = `
+      <div class="stat-box">
+        <span class="stat-num">${age}</span>
+        <span class="stat-label">Tahun</span>
+        <div class="stat-sub">umur barumu 🎂</div>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">${kenal.y > 0 ? kenal.y+'th' : kenal.m+'bln'}</span>
+        <span class="stat-label">Kenal</span>
+        <div class="stat-sub">${fmtShort(kenal)} yang lalu</div>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">${pacar.m > 0 ? pacar.m+'bln' : pacar.d+'hr'}</span>
+        <span class="stat-label">Pacaran</span>
+        <div class="stat-sub">${fmtShort(pacar)} bersama ❤️</div>
+      </div>
+    `;
+
+    window.addEventListener('load', () => setTimeout(confettiBurst, 400));
+
+    function showKangen() {
+      document.getElementById('kangenBtn').classList.add('hidden');
+      document.getElementById('kangen-reply').classList.remove('hidden');
+      confettiBurst();
+    }
+  </script>
+</body>
+</html>

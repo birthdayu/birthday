@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Little Birthday Surprise For You 🎂</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { font-family: 'DM Sans', sans-serif; }
+    .gift-section { margin: 1.5rem 0; }
+    .open-message { animation: fadeInUp 0.6s ease both; }
+
+    /* ── SLIDESHOW BACKGROUND ── */
+    .slideshow-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      filter: brightness(0.22) blur(2px);
+    }
+    .slide.active { opacity: 1; }
+
+    /* ── MUSIK BUTTON ── */
+    #musicBtn {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 100;
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.4);
+      color: var(--gold);
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+    #musicBtn:hover { background: rgba(201,168,76,0.28); transform: scale(1.1); }
+    #musicBtn.show { display: flex; }
+
+    /* ── COUNTDOWN ── */
+    .countdown-wrap {
+      background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      margin: 1.2rem 0 0.5rem;
+    }
+    .countdown-title {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 0.6rem;
+    }
+    .countdown-grid {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .cd-unit { text-align: center; }
+    .cd-num {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      line-height: 1;
+      display: block;
+    }
+    .cd-label {
+      font-size: 0.68rem;
+      color: var(--text-soft);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .together-line {
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      margin-top: 0.7rem;
+      border-top: 1px solid rgba(201,168,76,0.15);
+      padding-top: 0.6rem;
+    }
+    .together-line span { color: var(--gold-light); font-weight: 500; }
+
+    /* ── FOTO STRIP DI CARD ── */
+    .photo-strip {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin: 1rem 0;
+      overflow: hidden;
+    }
+    .photo-strip img {
+      width: 68px; height: 68px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1.5px solid rgba(201,168,76,0.35);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .photo-strip img.visible { opacity: 1; transform: translateY(0); }
+    .photo-strip img.placeholder-img {
+      background: rgba(201,168,76,0.08);
+      display: flex;
+    }
+  </style>
+</head>
+<body>
+  <!-- Slideshow background -->
+  <div class="slideshow-bg" id="slideshowBg"></div>
+
+  <div class="hearts-bg"></div>
+
+  <!-- Musik player tersembunyi -->
+  <audio id="bgMusic" loop>
+    <source src="music/romantic.mp3" type="audio/mpeg" />
+    <source src="music/romantic.ogg" type="audio/ogg" />
+  </audio>
+  <button id="musicBtn" title="Play/Pause musik">🎵</button>
+
+  <div class="page">
+    <div class="card">
+
+      <!-- STATE 1: Before click -->
+      <div id="state-before">
+        <div class="step-badge">✦ Surprise untuk kamu ✦</div>
+        <h1>A Little Birthday<br>Surprise For You</h1>
+        <div class="divider"></div>
+        <p class="subtitle">Dibuat khusus oleh pacar kamu yang paling sayang kamu</p>
+
+        <!-- Countdown -->
+        <div class="countdown-wrap" id="countdownWrap"></div>
+
+        <p>Hai kamu! 👋<br>Hari ini adalah hari spesial kamu.</p>
+        <p style="color:var(--text-soft)">Aku tidak bisa kasih hadiah langsung karena kita LDR…<br>tapi aku buat sesuatu untuk kamu.</p>
+
+        <!-- Strip foto kecil -->
+        <div class="photo-strip" id="photoStrip">
+          <img src="images/photo1.jpg" alt="foto 1" />
+          <img src="images/photo2.jpg" alt="foto 2" />
+          <img src="images/photo3.jpg" alt="foto 3" />
+          <img src="images/photo4.jpg" alt="foto 4" />
+          <img src="images/photo5.jpg" alt="foto 5" />
+        </div>
+
+        <div class="gift-section">
+          <div class="gift-box" id="giftBox" onclick="openGift()" title="Klik untuk buka!">🎁</div>
+          <p class="subtitle" style="margin-top:0.5rem">Klik kotak hadiah ini untuk membuka surprise kamu</p>
+        </div>
+      </div>
+
+      <!-- STATE 2: After click -->
+      <div id="state-after" class="hidden">
+        <div class="confetti-burst">🎉🎊🥳</div>
+        <h1>Selamat datang!</h1>
+        <div class="divider"></div>
+        <div class="open-message">
+          <p>Selamat datang di website ulang tahun kamu!</p>
+          <p>Tapi sebelum hadiahnya aku kasih…<br>
+          kamu harus melewati beberapa <strong style="color:var(--gold)">challenge</strong> dulu 😏</p>
+          <p style="font-size:0.9rem;color:var(--text-soft)">Siap? Yuk mulai~</p>
+        </div>
+        <a href="quiz.html" class="btn btn-primary">Mulai Challenge →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    // ── TANGGAL — edit di sini ──
+    const BDAY       = new Date(2004, 2, 18);   // 18 Maret 2004  (bulan: 0-indexed)
+    const DATE_KENAL = new Date(2022, 5, 25);   // 25 Juni 2022
+    const DATE_PACAR = new Date(2025, 9, 30);  // 25 November 2025
+
+    // ── FOTO SLIDESHOW (background) — tambah path foto di sini ──
+    const slideshowPhotos = [
+      'images/photo1.jpg',
+      'images/photo2.jpg',
+      'images/photo3.jpg',
+      'images/photo4.jpg',
+      'images/photo5.jpg',
+    ];
+
+    // ── SLIDESHOW ──
+    const bgEl = document.getElementById('slideshowBg');
+    const slides = slideshowPhotos.map(src => {
+      const div = document.createElement('div');
+      div.className = 'slide';
+      div.style.backgroundImage = `url('${src}')`;
+      bgEl.appendChild(div);
+      return div;
+    });
+    let slideIdx = 0;
+    function nextSlide() {
+      slides[slideIdx].classList.remove('active');
+      slideIdx = (slideIdx + 1) % slides.length;
+      slides[slideIdx].classList.add('active');
+    }
+    if (slides.length) { slides[0].classList.add('active'); setInterval(nextSlide, 5000); }
+
+    // ── COUNTDOWN / UMUR ──
+    function calcAge(bday) {
+      // Pakai tahun ultah ini sebagai referensi
+      const ref = new Date(new Date().getFullYear(), bday.getMonth(), bday.getDate());
+      return ref.getFullYear() - bday.getFullYear();
+    }
+    function diffDuration(from, to) {
+      let y = to.getFullYear() - from.getFullYear();
+      let m = to.getMonth() - from.getMonth();
+      let d = to.getDate() - from.getDate();
+      if (d < 0) { m--; d += new Date(to.getFullYear(), to.getMonth(), 0).getDate(); }
+      if (m < 0) { y--; m += 12; }
+      return { y, m, d };
+    }
+
+    function renderCountdown() {
+      // Referensi = tanggal ultah itu sendiri (18 Maret 2026)
+      const ref   = new Date(2026, 2, 18);
+      const age   = calcAge(BDAY);
+      const kenal = diffDuration(DATE_KENAL, ref);
+      const pacar = diffDuration(DATE_PACAR, ref);
+
+      function fmtDur(d) {
+        const parts = [];
+        if (d.y)  parts.push(`${d.y} tahun`);
+        if (d.m)  parts.push(`${d.m} bulan`);
+        if (d.d)  parts.push(`${d.d} hari`);
+        return parts.join(' ') || 'hari ini';
+      }
+
+      document.getElementById('countdownWrap').innerHTML = `
+        <div class="countdown-title">🎂 Hari ini kamu genap</div>
+        <div class="countdown-grid">
+          <div class="cd-unit">
+            <span class="cd-num">${age}</span>
+            <span class="cd-label">Tahun</span>
+          </div>
+        </div>
+        <div class="together-line">
+          Kenal sudah <span>${fmtDur(kenal)}</span> yang lalu<br>
+          Pacaran sudah <span>${fmtDur(pacar)}</span> ❤️
+        </div>
+      `;
+    }
+    renderCountdown();
+
+    // ── FOTO STRIP ──
+    setTimeout(() => {
+      document.querySelectorAll('.photo-strip img').forEach((img, i) => {
+        setTimeout(() => img.classList.add('visible'), i * 120);
+      });
+    }, 400);
+
+    // ── GIFT BOX ──
+    function openGift() {
+      const box = document.getElementById('giftBox');
+      box.style.animation = 'none';
+      box.textContent = '🎀';
+      box.style.transform = 'scale(1.3) rotate(15deg)';
+      box.style.transition = 'transform 0.3s';
+
+      // Muncul tombol musik
+      document.getElementById('musicBtn').classList.add('show');
+
+      setTimeout(() => {
+        confettiBurst();
+        document.getElementById('state-before').classList.add('hidden');
+        document.getElementById('state-after').classList.remove('hidden');
+      }, 600);
+    }
+
+    // ── MUSIK ──
+    const music = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    let musicStarted = false;
+
+    musicBtn.addEventListener('click', () => {
+      if (!musicStarted) {
+        music.volume = 0.45;
+        music.play().catch(() => {});
+        musicStarted = true;
+        musicBtn.textContent = '🔊';
+      } else if (music.paused) {
+        music.play();
+        musicBtn.textContent = '🔊';
+      } else {
+        music.pause();
+        musicBtn.textContent = '🔇';
+      }
+    });
+
+    // Simpan status musik ke sessionStorage supaya lanjut di halaman berikutnya
+    music.addEventListener('play',  () => sessionStorage.setItem('musicPlaying', '1'));
+    music.addEventListener('pause', () => sessionStorage.setItem('musicPlaying', '0'));
+  </script>
+</body>
+</html>

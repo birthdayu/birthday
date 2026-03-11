@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video Untuk Kamu 🎬</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/slideshow.css" />
+  <style>
+    body { font-family: 'DM Sans', sans-serif; }
+    .film-strip { font-size:1.5rem; letter-spacing:4px; color:rgba(201,168,76,0.4); margin-bottom:0.5rem; }
+    .video-note { background:rgba(201,168,76,0.06); border-radius:12px; padding:0.8rem 1rem; font-size:0.82rem; color:var(--text-soft); margin-top:0.8rem; border:1px dashed rgba(201,168,76,0.25); }
+    .video-note strong { color:var(--gold); }
+  </style>
+</head>
+<body>
+  <div class="slideshow-bg" id="slideshowBg"></div>
+  <div class="hearts-bg"></div>
+  <audio id="bgMusic" loop>
+    <source src="music/romantic.mp3" type="audio/mpeg" />
+    <source src="music/romantic.ogg" type="audio/ogg" />
+  </audio>
+  <button id="musicBtn" title="Play/Pause musik">🔇</button>
+
+  <div class="page">
+    <div class="card">
+      <div class="film-strip">🎞️ · · · 🎞️</div>
+      <h1>Video<br>untuk kamu</h1>
+      <div class="divider"></div>
+      <p>Aku membuat video ini khusus untuk kamu.<br>Semoga kamu suka ❤️</p>
+
+      <div class="video-wrapper">
+        <!--
+          CARA PAKAI VIDEO:
+          1. Taruh file di folder /video/ dengan nama surprise.mp4
+          2. Hapus div.video-placeholder di bawah
+          3. Uncomment tag <video> ini:
+
+          <video controls>
+            <source src="video/surprise.mp4" type="video/mp4" />
+          </video>
+        -->
+        <div class="video-placeholder">
+          <div>🎬</div>
+          <div style="font-size:1rem;margin-top:0.5rem;color:rgba(201,168,76,0.3)">Taruh video kamu di sini</div>
+        </div>
+      </div>
+
+      <div class="video-note">
+        📝 <strong>Cara pakai:</strong> Taruh file video di <code>video/surprise.mp4</code>, lalu uncomment tag <code>&lt;video&gt;</code> di atas.
+      </div>
+
+      <div style="margin-top:1.5rem">
+        <a href="ending.html" class="btn btn-secondary">← Kembali ke halaman akhir</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/slideshow.js"></script>
+  <script src="js/music.js"></script>
+</body>
+</html>

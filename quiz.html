@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Challenge 😆</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/slideshow.css" />
+</head>
+<body>
+  <div class="slideshow-bg" id="slideshowBg"></div>
+  <div class="hearts-bg"></div>
+  <audio id="bgMusic" loop>
+    <source src="music/romantic.mp3" type="audio/mpeg" />
+    <source src="music/romantic.ogg" type="audio/ogg" />
+  </audio>
+  <button id="musicBtn" title="Play/Pause musik">🔇</button>
+
+  <div class="page">
+    <div class="card">
+      <div class="step-badge">🧠 Challenge 1 dari 3</div>
+      <h1>Seberapa kenal<br>kamu sama aku?</h1>
+      <p class="subtitle">Kalau kamu bisa jawab semuanya berarti kamu pacar terbaik 😌</p>
+      <div class="divider"></div>
+
+      <div class="quiz-progress">
+        <div class="progress-dot active" id="dot-0"></div>
+        <div class="progress-dot" id="dot-1"></div>
+        <div class="progress-dot" id="dot-2"></div>
+      </div>
+
+      <div id="quiz-area"></div>
+
+      <div id="quiz-result" class="hidden">
+        <div class="confetti-burst">🏆✨🎉</div>
+        <h2>Selamat!</h2>
+        <p>Kamu resmi menjadi<br><strong style="color:var(--gold);font-size:1.2em">pacar terbaik tahun ini</strong> 🏆</p>
+        <p style="color:var(--text-soft)">Kamu ingat semua hal tentang aku 🥺</p>
+        <a href="choice.html" class="btn btn-primary">Lanjut ke challenge berikutnya →</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/slideshow.js"></script>
+  <script src="js/music.js"></script>
+  <script>
+    const questions = [
+      {
+        q: "Kita pertama kali deket karena apa?",
+        options: ["Organisasi", "Dateng ke event mobil", "Mabar", "Misi Gilar"],
+        correct: 1,
+        feedbackRight: "Wah kamu masih ingat ternyata 😆",
+        feedbackWrong: "Ih masa lupa sih 😤"
+      },
+      {
+        q: "Aku biasanya ngambek kalau kamu…",
+        options: ["Lama balas chat", "Main game terus", "Lupa bilang good night", "Semua benar"],
+        correct: 3,
+        feedbackRight: "Betul banget 😤",
+        feedbackWrong: "Kamu belum benar-benar kenal aku 😤"
+      },
+      {
+        q: "Aku paling sering bilang ke kamu apa?",
+        options: ["Semua benar", "Jangan begadang", "Jangan lupa makan", "Kangen"],
+        correct: 0,
+        feedbackRight: "Nah ini dia 🥺❤️",
+        feedbackWrong: "Hmmm coba ingat lagi 🤔"
+      }
+    ];
+
+    let current = 0, answered = false;
+
+    function renderQuestion() {
+      answered = false;
+      const q = questions[current];
+      document.getElementById('quiz-area').innerHTML = `
+        <div class="quiz-question">
+          <p>❓ ${q.q}</p>
+          <div class="quiz-options">
+            ${q.options.map((opt, i) => `<button class="quiz-option" onclick="answer(${i})">${opt}</button>`).join('')}
+          </div>
+          <div class="quiz-feedback hidden" id="feedback"></div>
+        </div>
+        <div id="next-btn-wrap" class="hidden" style="margin-top:1rem">
+          <button class="btn btn-primary" onclick="nextQuestion()">
+            ${current < questions.length - 1 ? 'Pertanyaan Berikutnya →' : 'Lihat Hasilnya 🎉'}
+          </button>
+        </div>`;
+      updateDots();
+    }
+
+    function answer(idx) {
+      if (answered) return;
+      answered = true;
+      const q = questions[current];
+      const opts = document.querySelectorAll('.quiz-option');
+      const feedback = document.getElementById('feedback');
+      opts.forEach((o, i) => { o.disabled = true; if (i === q.correct) o.classList.add('correct'); else if (i === idx) o.classList.add('wrong'); });
+      feedback.classList.remove('hidden');
+      feedback.textContent = idx === q.correct ? q.feedbackRight : q.feedbackWrong;
+      feedback.style.color  = idx === q.correct ? '#7dd9a8' : '#e88a7a';
+      document.getElementById('next-btn-wrap').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+      current++;
+      if (current < questions.length) { renderQuestion(); }
+      else {
+        document.getElementById('quiz-area').classList.add('hidden');
+        document.getElementById('quiz-result').classList.remove('hidden');
+        confettiBurst();
+      }
+    }
+
+    function updateDots() {
+      questions.forEach((_, i) => {
+        const d = document.getElementById('dot-' + i);
+        d.className = 'progress-dot' + (i < current ? ' done' : i === current ? ' active' : '');
+      });
+    }
+
+    renderQuestion();
+  </script>
+</body>
+</html>
