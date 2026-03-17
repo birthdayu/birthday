@@ -9,8 +9,6 @@
   <style>
     body { font-family: 'DM Sans', sans-serif; }
     .film-strip { font-size:1.5rem; letter-spacing:4px; color:rgba(201,168,76,0.4); margin-bottom:0.5rem; }
-    .video-note { background:rgba(201,168,76,0.06); border-radius:12px; padding:0.8rem 1rem; font-size:0.82rem; color:var(--text-soft); margin-top:0.8rem; border:1px dashed rgba(201,168,76,0.25); }
-    .video-note strong { color:var(--gold); }
   </style>
 </head>
 <body>
@@ -30,20 +28,27 @@
       <p>Aku membuat video ini khusus untuk kamu.<br>Semoga kamu suka ❤️</p>
 
       <div class="video-wrapper">
-        <!--
-          CARA PAKAI VIDEO:
-          1. Taruh file di folder /video/ dengan nama surprise.mp4
-          2. Hapus div.video-placeholder di bawah
-          3. Uncomment tag <video> ini:
-        -->
+        <video controls>
+          <source src="video/surprise.mp4" type="video/mp4" />
+        </video>
+      </div>
 
-          <video controls>
-            <source src="video/surprise.mp4" type="video/mp4" />
-          </video>
-        
       <div style="margin-top:1.5rem">
         <a href="ending.html" class="btn btn-secondary">← Kembali ke halaman akhir</a>
       </div>
+
+            <div style="margin-top:1.5rem; background:rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.25); border-radius:12px; padding:1.2rem;">
+        <p style="color:var(--off-white); font-size:1rem; margin-bottom:0.8rem;">
+          Sayang, mau hadiahnya dikirim online atau nunggu aku ke Bandung? 🎁
+        </p>
+        <p style="color:var(--text-soft); font-size:0.85rem; margin-bottom:1rem;">
+          Jawab via WhatsApp ya~
+        </p>
+        <a href="https://wa.me/6285895497780" target="_blank" class="btn btn-primary">
+          💬 Chat via WhatsApp
+        </a>
+      </div>
+      
     </div>
   </div>
 
